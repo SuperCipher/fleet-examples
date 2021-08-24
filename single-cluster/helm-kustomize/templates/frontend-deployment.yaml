@@ -5,23 +5,21 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: ticket-sales-web
+      app: guestbook
       tier: frontend
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   template:
     metadata:
       labels:
-        app: ticket-sales-web
+        app: guestbook
         tier: frontend
     spec:
       containers:
-      - name: ticket-sales-web
-        image: registry.digitalocean.com/biggestfan/ticket/ticket-sales-web:21.08.1-hotfix-1-11-g09186da
+      - name: php-redis
+        image: gcr.io/google-samples/gb-frontend:v4
         resources:
           requests:
             cpu: 100m
             memory: 100Mi
         ports:
         - containerPort: 80
-      imagePullSecrets:
-      - name: biggestfan-registry

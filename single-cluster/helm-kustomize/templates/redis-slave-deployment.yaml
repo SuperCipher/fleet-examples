@@ -1,3 +1,4 @@
+{{ if .Values.replication }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,3 +26,4 @@ spec:
             memory: 100Mi
         ports:
         - containerPort: 6379
+{{ end }}

@@ -11,5 +11,9 @@ spec:
   - port: 6379
   selector:
     app: redis
+    {{ if .Values.replication }}
     role: slave
+    {{ else }}
+    role: master
+    {{ end }}
     tier: backend
