@@ -5,18 +5,18 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: guestbook
+      app: ticket-sales-web
       tier: frontend
   replicas: 1
   template:
     metadata:
       labels:
-        app: guestbook
+        app: ticket-sales-web
         tier: frontend
     spec:
       containers:
-      - name: php-redis
-        image: gcr.io/google-samples/gb-frontend:v4
+      - name: ticket-sales-web
+        image: registry.digitalocean.com/biggestfan/ticket/ticket-sales-web:21.08.1-hotfix-1-11-g09186da
         resources:
           requests:
             cpu: 100m
