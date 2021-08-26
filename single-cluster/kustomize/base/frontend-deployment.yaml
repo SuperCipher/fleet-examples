@@ -16,10 +16,12 @@ spec:
     spec:
       containers:
       - name: php-redis
-        image: gcr.io/google-samples/gb-frontend:v4
+        image: registry.digitalocean.com/biggestfan/ticket/ticket-service:21.08.1-hotfix-1-16-gc97d3cc
         resources:
           requests:
             cpu: 100m
             memory: 100Mi
         ports:
         - containerPort: 80
+      imagePullSecrets:
+      - name: biggestfan-registry
