@@ -1,3 +1,3 @@
-patches:
+patchJson6902:
 - backend-pod.yaml
 - frontend-pod.yaml
