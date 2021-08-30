@@ -9,7 +9,7 @@ deploy:
   helm:
     releases:
     - name: ticket
-      chartPath: fleet/base-chart
+      chartPath: fleet
       #wait: true
       #valuesFiles:
       #- helm-skaffold-values.yaml
