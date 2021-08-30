@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  selector:
+    matchLabels:
+      app: ticket-service
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ticket-service
+        tier: backend
+    spec:
+      containers:
+      - name: ticket-service
+        image: registry.digitalocean.com/biggestfan/ticket/ticket-service:21.08.1-hotfix-1-16-gc97d3cc
+        resources:
+          requests:
+            cpu: 500m
+            memory: 500Mi
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: biggestfan-registry

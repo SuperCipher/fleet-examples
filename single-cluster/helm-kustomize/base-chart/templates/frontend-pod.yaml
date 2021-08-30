@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+spec:
+  containers:
+  - name: ticket-service-web
+    image: registry.digitalocean.com/biggestfan/ticket/ticket-service:21.08.1-hotfix-1-16-gc97d3cc
+    env:
+    - name: AUTH_HOST
+      value: "http://localhost:20000"
+    - name: PAYMENT_HOST
+      value: "http://localhost:20000"
+    - name: TIX_HOST
+      value: "http://localhost:20000"
+    - name: TOKEN_HOST
+      value: "http://localhost:20000"
+    - name: CRYPTO_TOKEN_HOST
+      value: "https://tix.dev.biggestfan.net"
+    - name: FIREBASE_APP_ID
+      value: "livejam-test"
+    - name: OMISE_PUBLIC_KEY
+      value: "pkey_test_5mw5wqk38bnuoxsotb0"
+    - name: TOKEN_COOKIE_DOMAIN
+      value: "localhost"

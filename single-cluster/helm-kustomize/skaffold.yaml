@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2beta21
+kind: Config
+build:
+  tagPolicy:
+    sha256: {}
+  local:
+    push: true
+deploy:
+  helm:
+    releases:
+    - name: ticket
+      chartPath: base-chart
+      #wait: true
+      #valuesFiles:
+      #- helm-skaffold-values.yaml
+      skipBuildDependencies: true # Skip helm dep build

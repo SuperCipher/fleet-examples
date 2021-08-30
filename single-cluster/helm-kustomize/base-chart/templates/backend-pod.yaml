@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend
+spec:
+  containers:
+  - name: ticket-service
+    image: registry.digitalocean.com/biggestfan/ticket/ticket-service:21.08.1-hotfix-1-16-gc97d3cc
+    env:
+    - name: PGHOST
+      value: "ticket-db"
+    - name: PGPORT
+      value: "5432"
+    - name: PGUSER
+      value: "biggest"
+    - name: PGDBNAME
+      value: "ticket_service"
+    - name: PGPASSWORD
+      value: "42Nv^%#PK"
+    - name: AUTH_PGHOST
+      value: "auth-db"
+    - name: AUTH_PGDBNAME
+      value: "auth_service"
+    - name: AUTH_PGUSER
+      value: "auth_service"
+    - name: AUTH_PGPASSWORD
+      value: "auth_service"
+    - name: JWT_SECRET
+      value: "G0ItWU5^bYQQV"
+    - name: JWT_FORGOTTEN_PWD
+      value: "U^b%ul2zmpCm"

@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: frontend
   labels:
-    app: guestbook
+    app: ticket-service-web
     tier: frontend
 spec:
-  type: "{{ .Values.serviceType }}"
   ports:
   - port: 80
+    targetPort: 80
   selector:
-    app: guestbook
+    app: ticket-service-web
     tier: frontend
