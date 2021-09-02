@@ -15,8 +15,21 @@ spec:
         tier: frontend
     spec:
       containers:
+      - name: ticket-generate-htmls-worker
+        image: registry.digitalocean.com/biggestfan/ticket/ticket-worker:21.08.1-hotfix-1-19-g720bb4e
+        command: ['sh', '-c', 'echo The app is running! && bin/run.sh generate_htmls_job']
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html/event-details
+          name: cache-volume
+        - mountPath: /usr/share/nginx/html/event-view
+          name: cache-volume1
       - name: ticket-service-web
         image: registry.digitalocean.com/biggestfan/ticket/ticket-sales-web:21.08.1-hotfix-1-11-g09186da
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html/event-details
+          name: cache-volume
+        - mountPath: /usr/share/nginx/html/event-view
+          name: cache-volume1
         env:
         - name: AUTH_HOST
           value: "http://localhost:20000"
@@ -42,3 +55,8 @@ spec:
         - containerPort: 80
       imagePullSecrets:
       - name: biggestfan-registry
+      volumes:
+      - name: cache-volume
+        emptyDir: {}
+      - name: cache-volume1
+        emptyDir: {}
