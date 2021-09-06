@@ -17,7 +17,10 @@ spec:
       containers:
       - name: ticket-generate-htmls-worker
         image: registry.digitalocean.com/biggestfan/ticket/ticket-worker:21.08.1-hotfix-1-19-g720bb4e
-        command: ['sh', '-c', 'echo The ticket-generate-htmls-worker is running! && bin/run.sh generate_htmls_job']
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", 'while [ ! -f "/usr/share/nginx/html/event-view/index.html" ]; do sleep 5; echo "waiting for index template"; done && /usr/src/bin/run.sh generate_htmls_job']
         volumeMounts:
         - mountPath: /usr/share/nginx/html/event-details
           name: cache-volume
@@ -25,11 +28,10 @@ spec:
           name: cache-volume1
       - name: ticket-service-web
         image: registry.digitalocean.com/biggestfan/ticket/ticket-sales-web:21.08.1-hotfix-1-11-g09186da
-        # command: ['sh', '-c', 'nginx -g daemon off && echo ticket-service-web is running! && cp /usr/share/nginx/html/template-event-details/index.html /usr/share/nginx/html/event-details/index.html']
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/sh", "-c", "cp /usr/share/nginx/html/template-event-details/index.html /usr/share/nginx/html/event-details/index.html && cp /usr/share/nginx/html/template-view-redirect/index.html /usr/share/nginx/html/event-view/index.html"]
+              command: ["/bin/sh", "-c", "sleep 5 && cp /usr/share/nginx/html/template-event-details/index.html /usr/share/nginx/html/event-details/index.html && cp /usr/share/nginx/html/template-view-redirect/index.html /usr/share/nginx/html/event-view/index.html"]
         volumeMounts:
         - mountPath: /usr/share/nginx/html/event-details
           name: cache-volume
