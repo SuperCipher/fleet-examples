@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  selector:
+    matchLabels:
+      app: ticket-service
+      tier: database
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ticket-service
+        tier: database
+    spec:
+      containers:
+      - name: database-service
+        image: registry.digitalocean.com/biggestfan/ticket/postgres:21.08.1-hotfix-1-19-g720bb4e
+        command: ["/bin/sh", "-c", "postgres -c archive_mode=off -c archive_command=''/usr/bin/wal-g wal-push %p'' -c wal_level=replica -c archive_timeout=1200 -c max_wal_senders=2 -c restore_command=''/usr/bin/wal-g wal-fetch \"%f\" \"%p\" >> /tmp/wal.log 2>&1''"]
+        env:
+        - name: PGUSER
+          value: "biggest"
+        - name: PGPASSWORD
+          value: "42Nv^%#PK"
+        resources:
+          requests:
+            cpu: 500m
+            memory: 500Mi
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: biggestfan-registry
