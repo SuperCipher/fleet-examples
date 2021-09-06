@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: ticket-service-web
       tier: frontend
-  replicas: {{ .Values.replicas }}
+  replicas: 1
   template:
     metadata:
       labels:
@@ -25,7 +25,11 @@ spec:
           name: cache-volume1
       - name: ticket-service-web
         image: registry.digitalocean.com/biggestfan/ticket/ticket-sales-web:21.08.1-hotfix-1-11-g09186da
-        # command: ['sh', '-c', 'echo ticket-service-web is running! && cp /usr/share/nginx/html/template-event-details/index.html /usr/share/nginx/html/event-details/index.html']
+        # command: ['sh', '-c', 'nginx -g daemon off && echo ticket-service-web is running! && cp /usr/share/nginx/html/template-event-details/index.html /usr/share/nginx/html/event-details/index.html']
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "cp /usr/share/nginx/html/template-event-details/index.html /usr/share/nginx/html/event-details/index.html && cp /usr/share/nginx/html/template-view-redirect/index.html /usr/share/nginx/html/event-view/index.html"]
         volumeMounts:
         - mountPath: /usr/share/nginx/html/event-details
           name: cache-volume
